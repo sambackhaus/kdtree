@@ -9,25 +9,28 @@ object KdtreeTest extends App {
     for (j <- start to start+dim-1) yield Random.nextDouble()
   }
 
-  val numPoints = 10000000
+  val numPoints = 400000
   val dimensions = 70
 
   var start = System.currentTimeMillis()
-  print(s"${start}: creating $numPoints test sequences with $dimensions dimensions...")
+  print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
   val testSequences : Seq[Seq[Double]] = for (i <- 1 to numPoints*dimensions by dimensions) yield createRandomVector(i, dimensions)
   println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
   start = System.currentTimeMillis()
-  print(s"${System.currentTimeMillis()}: creating kdtree from test points...")
+  print(s"$start: creating kdtree from test points...")
   val tree = KDTree.fromSeq(testSequences)(DimensionalOrdering.dimensionalOrderingForSeq[Seq[Double], Double](dimensions))
   println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
   val neighbours = 150
+  val samples = 200
   val rndTestSeq = createRandomVector(1, dimensions)
 
   start = System.currentTimeMillis()
-  print(s"${System.currentTimeMillis()}: looking for nearest $neighbours neighbours of a random test vector...")
-  val neighbourSeqs = tree.findNearest(rndTestSeq, neighbours)
+  print(s"$start: looking for nearest $neighbours neighbours of $samples random test sequences...")
+  for(i <- 1 to samples) {
+    tree.findNearest(rndTestSeq, neighbours)
+  }
   println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
   print("fin!")
