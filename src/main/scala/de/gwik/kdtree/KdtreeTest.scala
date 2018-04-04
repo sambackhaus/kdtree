@@ -5,13 +5,12 @@ import com.thesamet.spatial.{DimensionalOrdering, KDTree}
 import scala.util.Random
 
 object KdtreeTest extends App {
-
   def createRandomVector(start: Int, dim : Int) : Seq[Double] = {
     for (j <- start to start+dim-1) yield Random.nextDouble()
   }
 
   val numPoints = 10000000
-  val dimensions = 100
+  val dimensions = 70
 
   var start = System.currentTimeMillis()
   print(s"${start}: creating $numPoints test sequences with $dimensions dimensions...")
@@ -31,7 +30,5 @@ object KdtreeTest extends App {
   val neighbourSeqs = tree.findNearest(rndTestSeq, neighbours)
   println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
-  println(s"tree size: ${tree.size}")
   print("fin!")
-
 }
