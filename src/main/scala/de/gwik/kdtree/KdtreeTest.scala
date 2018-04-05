@@ -1,37 +1,59 @@
 package de.gwik.kdtree
 
 import com.thesamet.spatial.{DimensionalOrdering, KDTree}
+import org.apache.spark.sql.SparkSession
 
 import scala.util.Random
 
-object KdtreeTest extends App {
+object KdtreeTest {
+
   def createRandomVector(start: Int, dim : Int) : Seq[Double] = {
-    for (j <- start to start+dim-1) yield Random.nextDouble()
+    for (j <- start until start+dim) yield Random.nextDouble()
   }
 
-  val numPoints = 400000
-  val dimensions = 70
+  def main(args: Array[String]): Unit = {
+    val sparkSession = SparkSession.builder.appName("KdtreeTest").getOrCreate()
+    val sc = sparkSession.sparkContext
 
-  var start = System.currentTimeMillis()
-  print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
-  val testSequences : Seq[Seq[Double]] = for (i <- 1 to numPoints*dimensions by dimensions) yield createRandomVector(i, dimensions)
-  println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+    val numPoints = 400000
+    val dimensions = 70
+    var start = System.currentTimeMillis()
+    print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
+    val testSequences : Seq[Seq[Double]] = for (i <- 1 to numPoints*dimensions by dimensions) yield createRandomVector(i, dimensions)
+    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
-  start = System.currentTimeMillis()
-  print(s"$start: creating kdtree from test points...")
-  val tree = KDTree.fromSeq(testSequences)(DimensionalOrdering.dimensionalOrderingForSeq[Seq[Double], Double](dimensions))
-  println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+    print(s"$start: creating kdtree from test sequences...")
+    val tree = KDTree.fromSeq(testSequences)(DimensionalOrdering.dimensionalOrderingForSeq[Seq[Double], Double](dimensions))
+    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
-  val neighbours = 150
-  val samples = 200
-  val rndTestSeq = createRandomVector(1, dimensions)
+    start = System.currentTimeMillis()
+    print(s"$start: broadcasting tree...")
+    val bcTree = sc.broadcast(tree)
+    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
-  start = System.currentTimeMillis()
-  print(s"$start: looking for nearest $neighbours neighbours of $samples random test sequences...")
-  for(i <- 1 to samples) {
-    tree.findNearest(rndTestSeq, neighbours)
+    val samples = 2000
+    start = System.currentTimeMillis()
+    print(s"$start: creating $samples random test sequences...")
+    val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(i, dimensions)
+    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+
+    start = System.currentTimeMillis()
+    print(s"$start: looking for neighbours...")
+    val sampleWithNeighbour = sc.parallelize(rndTestSeq).map(i => {
+
+      val neighbours = 150
+
+      var start = System.currentTimeMillis()
+      val aTree = bcTree.value
+      print(s"$start: getting bcTree.value took: ${System.currentTimeMillis()-start}ms)")
+      
+      start = System.currentTimeMillis()
+      val neighboursNodes = aTree.findNearest(i, neighbours)
+      print(s"$start: looking for nearest $neighbours neighbours took: ${System.currentTimeMillis()-start}ms)")
+
+    }).collect()
+    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+
+    print("fin!")
   }
-  println(s"done (took: ${System.currentTimeMillis()-start}ms)")
-
-  print("fin!")
 }
