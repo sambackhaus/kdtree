@@ -36,24 +36,24 @@ object ReferenceTest {
     Scored[String](articleIAndVector._1, score, "tsl_ppe_lt")
   }
 
-  def createRandomVector(start: Int, dim : Int) : Array[Double] = {
-    (for (j <- start until start+dim) yield Random.nextDouble()).toArray
+  def createRandomVector(dim : Int) : Array[Double] = {
+    (for (j <- 1 to dim) yield Random.nextDouble()).toArray
   }
 
   def main(args: Array[String]): Unit = {
-    val numPoints = 400000
-    val dimensions = 70
-    val samples = 2000
+    val numPoints = 4000000
+    val dimensions = 2
+    val samples = 100
     val neighbours = 150
 
     var start = System.currentTimeMillis()
     print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
-    val testSequences : IndexedSeq[(String, Array[Double])] = for (i <- 1 to numPoints*dimensions by dimensions) yield (UUID.randomUUID().toString -> createRandomVector(i, dimensions))
+    val testSequences : IndexedSeq[(String, Array[Double])] = for (i <- 1 to numPoints) yield (UUID.randomUUID().toString -> createRandomVector(dimensions))
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
     start = System.currentTimeMillis()
     print(s"$start: creating $samples random test sequences...")
-    val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(i, dimensions)
+    val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(dimensions)
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
     rndTestSeq.map(i => {
