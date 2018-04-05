@@ -6,18 +6,13 @@ import com.thesamet.spatial.{DimensionalOrdering, KDTreeMap}
 
 import scala.util.Random
 
-object KdmapTest {
+object KdmapTest extends AbsTest {
 
   def createRandomVector(dim : Int) : Seq[Double] = {
     for (j <- 1 to dim) yield Random.nextDouble()
   }
 
-  def main(args: Array[String]): Unit = {
-    val numPoints = 4000000
-    val dimensions = 2
-    val samples = 100
-    val neighbours = 150
-
+  override def main(args: Array[String]): Unit = {
     var start = System.currentTimeMillis()
     print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
     val testSequences : IndexedSeq[(Seq[Double], String)] = for (i <- 1 to numPoints*dimensions by dimensions) yield (createRandomVector(dimensions) -> UUID.randomUUID().toString)
@@ -32,15 +27,16 @@ object KdmapTest {
     val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(dimensions)
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
-    start = System.currentTimeMillis()
-    print(s"$start: looking for neighbours...")
-    rndTestSeq.map(i => {
-      var start = System.currentTimeMillis()
-      val neighboursNodes = treeMap.findNearest(i, neighbours)
-      println(s"$start: looking for nearest $neighbours neighbours took: ${System.currentTimeMillis()-start}ms)")
+    val allStart = System.currentTimeMillis()
 
+    rndTestSeq.map(i => {
+      start = System.currentTimeMillis()
+      print(s"$start: looking for neighbours...")
+      val neighboursNodes = treeMap.findNearest(i, neighbours)
+      println(s"done (took: ${System.currentTimeMillis()-start}ms)")
     })
-    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+
+    println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
 
     print("fin!")
   }

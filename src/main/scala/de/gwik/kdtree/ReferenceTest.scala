@@ -4,7 +4,7 @@ import java.util.UUID
 
 import scala.util.Random
 
-object ReferenceTest {
+object ReferenceTest extends AbsTest {
 
   trait Scorable {
     def id: String
@@ -40,12 +40,7 @@ object ReferenceTest {
     (for (j <- 1 to dim) yield Random.nextDouble()).toArray
   }
 
-  def main(args: Array[String]): Unit = {
-    val numPoints = 4000000
-    val dimensions = 2
-    val samples = 100
-    val neighbours = 150
-
+  override def main(args: Array[String]): Unit = {
     var start = System.currentTimeMillis()
     print(s"$start: creating $numPoints test sequences with $dimensions dimensions...")
     val testSequences : IndexedSeq[(String, Array[Double])] = for (i <- 1 to numPoints) yield (UUID.randomUUID().toString -> createRandomVector(dimensions))
@@ -55,6 +50,8 @@ object ReferenceTest {
     print(s"$start: creating $samples random test sequences...")
     val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(dimensions)
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+
+    val allStart = System.currentTimeMillis()
 
     rndTestSeq.map(i => {
       start = System.currentTimeMillis()
@@ -73,6 +70,8 @@ object ReferenceTest {
 
       println(s"done (took: ${System.currentTimeMillis()-start}ms)")
     })
+
+    println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
 
     print("fin!")
 
