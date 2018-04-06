@@ -53,7 +53,7 @@ object ReferenceTest extends AbsTest {
 
     val allStart = System.currentTimeMillis()
 
-    rndTestSeq.map(i => {
+    val deltaTs = rndTestSeq.map(i => {
       start = System.currentTimeMillis()
       print(s"$start: looking for neighbours...")
 
@@ -67,9 +67,11 @@ object ReferenceTest extends AbsTest {
         }
       }
       topScores.dequeueAll.reverse
-
-      println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+      val deltaT = System.currentTimeMillis()-start
+      println(s"done (took: ${deltaT}ms)")
+      deltaT
     })
+    println(s"average: ${deltaTs.sum.toDouble/samples.toDouble}ms")
 
     println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
 
