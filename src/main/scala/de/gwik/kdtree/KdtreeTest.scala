@@ -39,7 +39,7 @@ object KdtreeTest {
 
     start = System.currentTimeMillis()
     print(s"$start: looking for neighbours...")
-    val sampleWithNeighbour = sc.parallelize(rndTestSeq).map(i => {
+    val deltaTs = sc.parallelize(rndTestSeq).map(i => {
 
       val neighbours = 150
 
@@ -49,10 +49,11 @@ object KdtreeTest {
       
       start = System.currentTimeMillis()
       val neighboursNodes = aTree.findNearest(i, neighbours)
-      print(s"$start: looking for nearest $neighbours neighbours took: ${System.currentTimeMillis()-start}ms)")
-
+      val deltaT = System.currentTimeMillis()-start
+      println(s"done (took: ${deltaT}ms)")
+      deltaT
     }).collect()
-    println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+    println(s"average: ${deltaTs.sum.toDouble/samples.toDouble}ms")
 
     print("fin!")
   }

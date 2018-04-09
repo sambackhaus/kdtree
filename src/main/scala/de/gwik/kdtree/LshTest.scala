@@ -23,17 +23,18 @@ object LshTest extends AbsTest {
     print(s"$start: creating $samples random test sequences...")
     val rndTestSeq = (1 to samples).map(i => createRandomVector(dimensions))
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
-
     val allStart = System.currentTimeMillis()
 
-    rndTestSeq.map(data => {
+    val deltaTs = rndTestSeq.map(data => {
       start = System.currentTimeMillis()
       print(s"$start: looking for neighbours...")
-
       val items2 = lsh.query(data, maxItems = neighbours)
-
-      println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+      val deltaT = System.currentTimeMillis()-start
+      println(s"done (took: ${deltaT}ms)")
+      deltaT
     })
+    println(s"average: ${deltaTs.sum.toDouble/samples.toDouble}ms")
+
 
     println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
 

@@ -3,6 +3,7 @@ package de.gwik.kdtree
 import java.util.UUID
 
 import com.thesamet.spatial.{DimensionalOrdering, KDTreeMap}
+import de.gwik.kdtree.LshTest.samples
 
 import scala.util.Random
 
@@ -29,14 +30,15 @@ object KdmapTest extends AbsTest {
 
     val allStart = System.currentTimeMillis()
 
-    rndTestSeq.map(i => {
+    val deltaTs = rndTestSeq.map(i => {
       start = System.currentTimeMillis()
       print(s"$start: looking for neighbours...")
       val neighboursNodes = treeMap.findNearest(i, neighbours)
-      println(s"done (took: ${System.currentTimeMillis()-start}ms)")
+      val deltaT = System.currentTimeMillis()-start
+      println(s"done (took: ${deltaT}ms)")
+      deltaT
     })
-
-    println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
+    println(s"average: ${deltaTs.sum.toDouble/samples.toDouble}ms")
 
     print("fin!")
   }
