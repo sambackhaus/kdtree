@@ -13,5 +13,5 @@ They provide a very good documentation:
     https://github.com/nmslib/nmslib/blob/master/manual/manual.pdf
 
 nmslib is written in c++  and one can setup a query-server to access the server in java.
-For this one needs the trranslation tool (or whatever develpers call this stuff) which is provided by Thrift:
+For this one needs the translation tool (or whatever develpers call this stuff) which is provided by Thrift:
     https://thrift.apache.org/docs/BuildingFromSource
