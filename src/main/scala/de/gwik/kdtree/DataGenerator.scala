@@ -11,13 +11,18 @@ object DataGenerator extends App with DataConfig {
   if(outFile.exists()) outFile.delete() else outFolder.mkdirs()
   val writer = new PrintWriter(outFile)
 
-  var start = System.currentTimeMillis()
-  print(s"$start: creating $numPoints in fs with $dimensions dimensions...")
-  (1 to numPoints).map(i => {
-    val numbers = for (j <- 1 to dimensions) yield Random.nextDouble()
-    val str = numbers.mkString("   ") + "\n"
-    writer.write(str)})
-  println(s"done (took: ${System.currentTimeMillis()-start}ms)")
-  writer.close()
+  try {
+    val start = System.currentTimeMillis()
+    print(s"$start: creating $numPoints in fs with $dimensions dimensions...")
+    (1 to numPoints).foreach(i => {
+      val numbers = for (j <- 1 to dimensions) yield Random.nextDouble()
+      val str = numbers.mkString("   ") + "\n"
+      writer.write(str)
+    })
+    println(s"done (took: ${System.currentTimeMillis() - start}ms)")
+  } finally {
+    writer.close()
+  }
+
   print("fin!")
 }
