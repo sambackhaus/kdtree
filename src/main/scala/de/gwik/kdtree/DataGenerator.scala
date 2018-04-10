@@ -13,7 +13,8 @@ object DataGenerator extends App with DataConfig {
 
   var start = System.currentTimeMillis()
   print(s"$start: creating $numPoints in fs with $dimensions dimensions...")
-  (1 to numPoints).map(i => writer.write((for (j <- 1 to dimensions) yield Random.nextDouble()).mkString("\t")))
+  (1 to numPoints).map(i => writer.write(
+    (for (j <- 1 to dimensions) yield Random.nextDouble()).mkString("   ") + "\n"))
   println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
   print("fin!")
