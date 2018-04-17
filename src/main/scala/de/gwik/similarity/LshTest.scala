@@ -1,4 +1,4 @@
-package de.gwik.kdtree
+package de.gwik.similarity
 
 import java.util.UUID
 

@@ -1,4 +1,4 @@
-package de.gwik.kdtree
+package de.gwik.similarity
 
 import com.thesamet.spatial.{DimensionalOrdering, KDTree}
 import org.apache.spark.sql.SparkSession

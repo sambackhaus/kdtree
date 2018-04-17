@@ -1,4 +1,4 @@
-package de.gwik.kdtree
+package de.gwik.similarity
 
 import java.io.{File, PrintWriter}
 
@@ -6,7 +6,7 @@ import scala.util.Random
 
 object DataGenerator extends App with DataConfig {
 
-  val outFolder = new File("out/")
+  val outFolder = new File("target/")
   val outFile = new File(outFolder, "test_data.tsv")
   if(outFile.exists()) outFile.delete() else outFolder.mkdirs()
   val writer = new PrintWriter(outFile)

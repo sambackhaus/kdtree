@@ -1,9 +1,9 @@
-package de.gwik.kdtree
+package de.gwik.similarity
 
 import java.util.UUID
 
 import com.thesamet.spatial.{DimensionalOrdering, KDTreeMap}
-import de.gwik.kdtree.LshTest.samples
+import de.gwik.similarity.LshTest.samples
 
 import scala.util.Random
 
