@@ -11,7 +11,7 @@ object NmslibTest extends AbsTest {
 
   class NmslibClient {
 
-    def query(queryObj : Seq[Double], k : Int) = {
+    def query(queryObj : String, k : Int) = {
       try {
         val transport = new TSocket("localhost", 10000)
         transport.open()
@@ -21,17 +21,13 @@ object NmslibTest extends AbsTest {
 
         val t1 = System.nanoTime()
 
-        println(s"Running a $k-NN search")
-
-        import scala.collection.JavaConversions._
-        val result = client.knnQuery(k, queryObj.mkString("   "), true, true)
-        val res : List[ReplyEntry] = result.toList
-
+        val result = client.knnQuery(k, queryObj, true, true)
         val t2 = System.nanoTime()
-
         println("Finished in %g ms".format((t2 - t1)/1e6))
 
-        res.foreach(e => println("id=%d dist=%g externId=%s".format(e.getId(), e.getDist(), e.getExternId())))
+        import scala.collection.JavaConversions._
+        val res : List[ReplyEntry] = result.toList
+        //res.foreach(e => println("id=%d dist=%g externId=%s".format(e.getId(), e.getDist(), e.getExternId())))
 
         transport.close(); // Close transport/socket !
       } catch {
@@ -53,17 +49,16 @@ object NmslibTest extends AbsTest {
     val client = new NmslibClient()
 
     val allStart = System.currentTimeMillis()
+    println(s"Running $samples $neighbours-NN searches...")
     val deltaTs = rndTestSeq.map(data => {
-      start = System.currentTimeMillis()
-      print(s"$start: looking for neighbours...")
-      val items2 = client.query(data, neighbours)
-      val deltaT = System.currentTimeMillis()-start
-      println(s"done (took: ${deltaT}ms)")
+      start = System.nanoTime()
+      client.query(data.mkString("   "), neighbours)
+      val deltaT = (System.nanoTime()-start)/1e6
       deltaT
     })
-    println(s"average: ${deltaTs.sum.toDouble/samples.toDouble}ms")
 
-    println(s"Found $samples * $neighbours in ${System.currentTimeMillis()-allStart}ms")
+    println(s"average: ${deltaTs.sum/samples.toDouble}ms")
+    println(s"Found $samples * $neighbours neighbours in ${System.currentTimeMillis()-allStart}ms")
 
     print("fin!")
   }
