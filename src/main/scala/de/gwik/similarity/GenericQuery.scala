@@ -1,6 +1,6 @@
 package de.gwik.similarity
 
-abstract class GenericQuery(dataUrl: String) {
+abstract class GenericQuery(dataUrl: String, name: String) {
 
   var avgQueryTimeInMS: Double = 0.0
   var totalInvocations: Int = 0
@@ -18,6 +18,10 @@ abstract class GenericQuery(dataUrl: String) {
     avgQueryTimeInMS = (avgQueryTimeInMS * totalInvocations + deltaT) / (totalInvocations + 1)
     totalInvocations += 1
     result
+  }
+
+  def getCurrentProfile():String = {
+    s"$name, avg query time: $avgQueryTimeInMS ms, invocations: $totalInvocations"
   }
 
 }
