@@ -12,7 +12,7 @@ class KdtreeQuery(dataUrl: String) extends GenericQuery(dataUrl) {
   val dim: Int = testSequences.head.length
   val tree: KDTree[Seq[Double]] = KDTree.fromSeq(testSequences)(DimensionalOrdering.dimensionalOrderingForSeq[Seq[Double], Double](dim))
 
-  def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
+  override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
     val neighboursNodes: Seq[Seq[Double]] = tree.findNearest(queryVector, nearestNeighborCount)
     neighboursNodes.map(res => new QueryResult(queryVector, res))
   }

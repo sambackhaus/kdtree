@@ -1,6 +1,6 @@
 package sandbox
 
-import de.gwik.similarity.{DataConfig, DataGenerator, KdtreeQuery}
+import de.gwik.similarity.{DataConfig, DataGenerator, KdtreeQuery, ReferenceQuery}
 import org.scalatest.{FunSpec, Matchers}
 
 
@@ -10,13 +10,14 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
 
   describe("inclusion test") {
     it("TODO: put tests") {
-
-      val kdtreeQuery = new KdtreeQuery(dataFolder + dataName)
       val queryVector = DataGenerator.createRandomVector()
+      val kdtreeQuery = new KdtreeQuery(dataFolder + dataName)
+      val referenceQuery = new ReferenceQuery(dataFolder + dataName)
 
-      val result = kdtreeQuery.queryNN(queryVector, neighbours)
+      val result1 = kdtreeQuery.queryNN(queryVector, neighbours)
+      val result2 = referenceQuery.queryNN(queryVector, neighbours)
 
-      result.length shouldBe neighbours
+      result1.length shouldBe neighbours
     }
 
   }
