@@ -1,16 +1,17 @@
 package de.gwik.similarity
 import java.io.{File, PrintWriter}
+
 import scala.util.Random
 
 object DataGenerator extends App with DataConfig {
 
-  def createRandomVector(start: Int, dim : Int) : Seq[Double] = {
-    for (j <- start until start+dim) yield Random.nextDouble()
+  def createRandomVector() : Seq[Double] = {
+    for (j <- 0 until dimensions) yield Random.nextDouble()
   }
 
   def generate() {
-    val outFolder = new File("target/")
-    val outFile = new File(outFolder, "test_data.tsv")
+    val outFolder = new File(dataFolder)
+    val outFile = new File(outFolder, dataName)
     if (outFile.exists()) outFile.delete() else outFolder.mkdirs()
     val writer = new PrintWriter(outFile)
     try {
