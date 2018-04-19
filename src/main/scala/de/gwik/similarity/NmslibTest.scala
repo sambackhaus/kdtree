@@ -34,6 +34,7 @@ object NmslibTest extends AbsTest {
         case (te : TException ) =>
           println("Apache Thrift exception: " + te)
           te.printStackTrace()
+          println("needs: \n ./query_server -i /home/chambroc/code/sandbox/out/test_data.tsv -s l2 -m sw-graph -c NN=10,efConstruction=200 -p 10000")
       }
     }
   }
@@ -42,6 +43,7 @@ object NmslibTest extends AbsTest {
 
   override def main(args: Array[String]): Unit = {
     var start = System.currentTimeMillis()
+    println("needs: \n ./query_server -i /home/chambroc/code/sandbox/out/test_data.tsv -s l2 -m sw-graph -c NN=10,efConstruction=200 -p 10000")
     print(s"$start: creating $samples random test sequences...")
     val rndTestSeq = for (i <- numPoints*dimensions +1 to numPoints*dimensions + samples) yield createRandomVector(dimensions)
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
