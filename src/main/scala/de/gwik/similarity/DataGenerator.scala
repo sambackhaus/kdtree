@@ -1,10 +1,12 @@
 package de.gwik.similarity
-
 import java.io.{File, PrintWriter}
-
 import scala.util.Random
 
 object DataGenerator extends App with DataConfig {
+
+  def createRandomVector(start: Int, dim : Int) : Seq[Double] = {
+    for (j <- start until start+dim) yield Random.nextDouble()
+  }
 
   def generate() {
     val outFolder = new File("target/")
