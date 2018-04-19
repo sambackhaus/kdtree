@@ -27,6 +27,8 @@ libraryDependencies ++= Seq(
   "commons-cli" % "commons-cli" % "1.2",
   "org.slf4j" % "slf4j-api" % "1.7.12"
 )
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / "gen-java"
 
