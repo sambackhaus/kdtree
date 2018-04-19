@@ -1,10 +1,12 @@
 package sandbox
 
+import de.gwik.similarity.DataGenerator
 import org.scalatest.{FunSpec, Matchers}
 
-import scala.collection.JavaConverters._
 
 class ComparisonTest extends FunSpec with Matchers {
+
+  DataGenerator.generate()
 
   describe("inclusion test") {
     it("TODO: put tests") {
