@@ -14,8 +14,8 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
       val kdtreeQuery = new KdtreeQuery(dataFolder + dataName)
       val referenceQuery = new ReferenceQuery(dataFolder + dataName)
 
-      val result1 = kdtreeQuery.queryNN(queryVector, neighbours)
-      val result2 = referenceQuery.queryNN(queryVector, neighbours)
+      val result1 = kdtreeQuery.profileQueryNN(queryVector, neighbours)
+      val result2 = referenceQuery.profileQueryNN(queryVector, neighbours)
 
       result1.length shouldBe neighbours
     }
