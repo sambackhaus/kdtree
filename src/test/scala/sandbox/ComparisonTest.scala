@@ -12,12 +12,13 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
     it("TODO: put tests") {
 
       val queries: Seq[GenericQuery] = Seq(
+        new NmslibQuery(dataFolder + dataName),
         new KdtreeQuery(dataFolder + dataName),
         new ReferenceQuery(dataFolder + dataName),
         new LshQuery(dataFolder + dataName)
       )
 
-      queries.map(q => {
+      val resultProfiles: Seq[String] = queries.map(q => {
         val deadline = 5.seconds.fromNow
         while(deadline.hasTimeLeft) {
           q.profileQueryNN(DataGenerator.createRandomVector(), neighbours)

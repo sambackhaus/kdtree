@@ -3,8 +3,6 @@ package de.gwik.similarity
 import java.util.UUID
 
 import breeze.linalg.DenseVector
-import com.thesamet.spatial.{DimensionalOrdering, KDTree}
-import de.gwik.similarity.LshTest.neighbours
 import io.krom.lsh.Lsh
 
 import scala.io.Source
