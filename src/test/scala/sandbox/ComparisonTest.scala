@@ -23,6 +23,7 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
         while(deadline.hasTimeLeft) {
           q.profileQueryNN(DataGenerator.createRandomVector(), neighbours)
         }
+        q.tearDown()
         println(q.getCurrentProfile())
         q.getCurrentProfile()
       })

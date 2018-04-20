@@ -5,10 +5,13 @@ import java.util.UUID
 import breeze.linalg.DenseVector
 import io.krom.lsh.Lsh
 
+import scala.util.Random
+
 object LshTest extends AbsTest {
 
   def createRandomVector(dim : Int) : DenseVector[Double] = {
-    DenseVector.rand(dim)
+    //DenseVector.rand(dim)
+    new DenseVector((for (j <- 0 until dimensions) yield Random.nextDouble()).toArray)
   }
 
   override def main(args: Array[String]): Unit = {
@@ -16,7 +19,7 @@ object LshTest extends AbsTest {
 
     var start = System.currentTimeMillis()
     print(s"$start: creating $numPoints in lsh store with $dimensions dimensions...")
-    (1 to numPoints).map(i => lsh.store(createRandomVector(dimensions), UUID.randomUUID().toString))
+    (1 to numPoints).foreach(i => lsh.store(createRandomVector(dimensions), UUID.randomUUID().toString))
     println(s"done (took: ${System.currentTimeMillis()-start}ms)")
 
     start = System.currentTimeMillis()

@@ -15,11 +15,13 @@ class LshQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
   val dim: Int = testSequences.head.length
 
   val lsh: Lsh = Lsh(numBits, dimensions, numTables)
-  testSequences.map(i => lsh.store(new DenseVector(i.toArray), UUID.randomUUID().toString))
+  testSequences.foreach(i => {
+    val payload = new DenseVector(i.toArray)
+    lsh.store(payload, UUID.randomUUID().toString)
+  })
 
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
-
-    val ret: Seq[(String, Double)] = lsh.query(new DenseVector(queryVector.toArray), maxItems = nearestNeighborCount).toSeq
+    val ret: Seq[(String, Double)] = lsh.query(new DenseVector(queryVector.toArray), maxItems = nearestNeighborCount)
     ret.map(i => new QueryResult(queryVector, None, Option(i._2), Option(i._1)))
   }
 }
