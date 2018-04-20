@@ -1,5 +1,7 @@
 package de.gwik.similarity
 
+import breeze.numerics.sqrt
+
 import scala.collection.mutable
 import scala.io.Source
 
@@ -45,7 +47,12 @@ class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
       }
     }
     val res: Seq[Any] = topScores.dequeueAll.reverse
-    res.map(i => new QueryResult(i.asInstanceOf[Scored].userVector, i.asInstanceOf[Scored].articleVector))
+    res.map(i => new QueryResult(
+      i.asInstanceOf[Scored].userVector,
+      Option(i.asInstanceOf[Scored].articleVector),
+      Option(sqrt(i.asInstanceOf[Scored].score)),
+      None)
+    )
   }
 
 }

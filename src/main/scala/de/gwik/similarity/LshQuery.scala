@@ -21,8 +21,8 @@ class LshQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
 
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
 
-    val ret: IndexedSeq[(String, Double)] = lsh.query(new DenseVector(queryVector.toArray), maxItems = nearestNeighborCount)
-    ret.map(i => new QueryResult(queryVector, queryVector))
+    val ret: Seq[(String, Double)] = lsh.query(new DenseVector(queryVector.toArray), maxItems = nearestNeighborCount).toSeq
+    ret.map(i => new QueryResult(queryVector, None, Option(i._2), Option(i._1)))
   }
 }
 

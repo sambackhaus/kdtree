@@ -14,6 +14,6 @@ class KdtreeQuery(dataUrl: String) extends GenericQuery(dataUrl) {
 
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
     val neighboursNodes: Seq[Seq[Double]] = tree.findNearest(queryVector, nearestNeighborCount)
-    neighboursNodes.map(res => new QueryResult(queryVector, res))
+    neighboursNodes.map(res => new QueryResult(queryVector, Option(res)))
   }
 }
