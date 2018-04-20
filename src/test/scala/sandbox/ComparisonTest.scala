@@ -1,8 +1,8 @@
 package sandbox
 
-import de.gwik.similarity.{DataConfig, DataGenerator, KdtreeQuery, ReferenceQuery}
+import de.gwik.similarity._
 import org.scalatest.{FunSpec, Matchers}
-
+import scala.concurrent.duration._
 
 class ComparisonTest extends FunSpec with Matchers with DataConfig {
 
@@ -10,17 +10,23 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
 
   describe("inclusion test") {
     it("TODO: put tests") {
-      val queryVector = DataGenerator.createRandomVector()
-      val kdtreeQuery = new KdtreeQuery(dataFolder + dataName)
-      val referenceQuery = new ReferenceQuery(dataFolder + dataName)
 
-      val result1 = kdtreeQuery.profileQueryNN(queryVector, neighbours)
-      val result2 = referenceQuery.profileQueryNN(queryVector, neighbours)
+      val queries: Seq[GenericQuery] = Seq(
+        new KdtreeQuery(dataFolder + dataName),
+        new ReferenceQuery(dataFolder + dataName),
+        new LshQuery(dataFolder + dataName)
+      )
 
-      println(kdtreeQuery.getCurrentProfile())
-      println(referenceQuery.getCurrentProfile())
+      queries.map(q => {
+        val deadline = 5.seconds.fromNow
+        while(deadline.hasTimeLeft) {
+          q.profileQueryNN(DataGenerator.createRandomVector(), neighbours)
+        }
+        println(q.getCurrentProfile())
+        q.getCurrentProfile()
+      })
 
-      result1.length shouldBe neighbours
+      1 shouldBe 1
     }
 
   }
