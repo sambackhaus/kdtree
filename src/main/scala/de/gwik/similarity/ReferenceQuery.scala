@@ -3,7 +3,7 @@ package de.gwik.similarity
 import scala.collection.mutable
 import scala.io.Source
 
-class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl, "Reference") {
+class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
 
   val src: Iterator[String] = Source.fromFile(dataUrl).getLines
   val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble).toSeq).toSeq
