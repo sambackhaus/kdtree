@@ -4,3 +4,4 @@ project
 target
 out/
 gen-java/
+nmslib_exploration/out_*
