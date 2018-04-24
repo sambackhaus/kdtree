@@ -1,6 +1,6 @@
 #!/bin/bash
 
-path_to_experiment_script=$1
+path_to_experiment_script=$1 # this path should point to the script in nmslib: <...>/nmslib/similarity_search/release/experiment
 path_to_data=$2
 path_to_queries=$3
 
