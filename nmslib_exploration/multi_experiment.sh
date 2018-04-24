@@ -6,7 +6,7 @@ path_to_queries=$3
 
 output_prefix="out_"
 
-declare -a arr=("vptree" "mvptree" "ghtree" "list_clusters" "satree" "bbtree" "lsh_multiprobe" "lsh_gaussian" "lsh_cauchy" "lsh_threshold" "proj_incsort" "proj_vptree" "omedrank" "pp-index" "mi-file" "napp" "perm_incsort_bin" "perm_bin_vptree" "sw-graph" "hnsw" "nndes" "seq_search" "mult_index")
+declare -a arr=("vptree" "mvptree" "ghtree" "list_clusters" "satree" "bbtree" "lsh_multiprobe" "lsh_gaussian" "lsh_cauchy" "lsh_threshold" "proj_incsort" "proj_vptree" "omedrank" "pp-index" "mi-file" "napp" "perm_incsort_bin" "perm_bin_vptree" "sw-graph" "hnsw" "nndes" "seq_search")
 
 for i in "${arr[@]}"
 do
