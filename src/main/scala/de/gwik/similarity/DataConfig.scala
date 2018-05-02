@@ -10,5 +10,9 @@ trait DataConfig {
   val numTables = 5
   val dataName = "test_data.tsv"
   val dataFolder = "target/"
+  val deadlineSeconds = 20
 
+  def configuration(): String = {
+    s"numPoints: $numPoints\ndimensions: $dimensions\nsamples: $samples\nneighbours: $neighbours\nnumBits: $numBits\nnumTables: $numTables\ndataName: $dataName\ndataFolder: $dataName\ndeadlineSeconds: $deadlineSeconds"
+  }
 }
