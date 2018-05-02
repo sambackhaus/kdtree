@@ -7,9 +7,8 @@ import scala.io.Source
 
 class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
 
-  val src: Iterator[String] = Source.fromFile(dataUrl).getLines
-  val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble).toSeq).toSeq
-  val dim: Int = testSequences.head.length
+  var testSequences: Seq[Seq[Double]] = _
+  var dim: Int = _
 
   trait Scorable {
     def id: String
@@ -53,6 +52,15 @@ class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
       Option(sqrt(i.asInstanceOf[Scored].score)),
       None)
     )
+  }
+
+  override def tearUp(): Unit = {
+    val src: Iterator[String] = Source.fromFile(dataUrl).getLines
+    testSequences = src.map(l => l.split("   ").map(c => c.toDouble).toSeq).toSeq
+    dim = testSequences.head.length
+  }
+
+  override def tearDown(): Unit = {
   }
 
 }
