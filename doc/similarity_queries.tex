@@ -423,6 +423,7 @@ seq search   & 1      & 1        & 1           & 0   & 33.7  & 709910   & 1.07  
 \begin{frame}[fragile]{result scala (https://github.com/sambackhaus/sandbox.git), P50} 
 \linespread{1}\scriptsize{
 \begin{minipage}{0.55\textwidth}  
+
 \begin{lstlisting}[style=myScalastyle]
 val queries: Seq[GenericQuery] = Seq(
 	new KdtreeQuery("dataPath"),
@@ -439,9 +440,25 @@ val resultProfiles = queries.map(q => {
 		q.tearDown()
 		profile})
 \end{lstlisting}
+
+nmslib essence:
+\begin{lstlisting}[style=myScalastyle]
+val pathToQueryServer = "../nmslib/query_server/cpp_client_server/query_server"
+s"$pathToQueryServer -i ./$dataUrl -s l1 -m hnsw -c efConstruction=400,delaunay_type=0 -p 10000" run
+
+val transport: TSocket = new TSocket("localhost", 10000)
+transport.get.open()
+
+val protocol: TBinaryProtocol = new TBinaryProtocol(transport.get)
+val client: QueryService.Client = new QueryService.Client(protocol)
+
+result: Seq[ReplyEntry] = client.knnQuery(nearestNeighborCount, queryString, true, false).toList
+\end{lstlisting}
+
 \end{minipage}
 \hfill
 \begin{minipage}{0.40\textwidth}  
+
 
 \begin{flushleft}
 Result (random):\\
@@ -449,10 +466,10 @@ numPoints: 400000\\
 dimensions: 90\\
 neighbours: 150\\
 
-KdtreeQuery, avg query: 1447 ms\\
-LshQuery, avg query: 50 ms\\
-NmslibQuery, avg query: {\alertA{\bf{0.5 ms}}}\\
-ReferenceQuery, avg query: 198 ms\\
+KdtreeQuery, avg query: 1606 ms\\
+LshQuery, avg query: 44 ms\\
+NmslibQuery, avg query: {\alertA{\bf{0.6 ms}}}\\
+ReferenceQuery, avg query: 56 ms\\
 \vspace{0.2cm}
 Result (random):\\
 numPoints: 1000000\\

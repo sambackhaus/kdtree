@@ -22,13 +22,18 @@ class LshQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
 
   override def tearUp(): Unit = {
     val src: Iterator[String] = Source.fromFile(dataUrl).getLines
-    val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble  ).toSeq).toSeq
+    val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble).toSeq).toSeq
     dim_val = testSequences.head.length
 
     lsh = Lsh(numBits, dim_val, numTables)
     testSequences.foreach(i => {
-      val payload = new DenseVector(i.toArray)
-      lsh.store(payload, UUID.randomUUID().toString)
+      try {
+        val payload = new DenseVector(i.toArray)
+        lsh.store(payload, UUID.randomUUID().toString)
+      }
+      catch {
+        case e: Exception => println(i.length)
+      }
     })
   }
 

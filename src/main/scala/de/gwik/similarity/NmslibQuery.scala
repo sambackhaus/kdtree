@@ -47,7 +47,7 @@ class NmslibQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig
           Thread.sleep(1000)
           print(".")
         }}}
-    val protocol = new TBinaryProtocol(transport.get)
+    val protocol: TBinaryProtocol = new TBinaryProtocol(transport.get)
     client = new QueryService.Client(protocol)
     println("done!")
   }

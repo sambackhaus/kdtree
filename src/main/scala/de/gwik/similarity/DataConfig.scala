@@ -2,7 +2,7 @@ package de.gwik.similarity
 
 trait DataConfig {
 
-  val numPoints = 400000
+  val numPoints = 1000000
   val dimensionsForGenerator = 90
   val samples = 100
   val neighbours = 150

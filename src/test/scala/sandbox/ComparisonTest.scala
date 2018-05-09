@@ -15,7 +15,7 @@ import scala.io.Codec
 
 class ComparisonTest extends FunSpec with Matchers with DataConfig {
 
-  //DataGenerator.generate()
+  DataGenerator.generate()
 
   describe("inclusion test") {
     it("profiling test") {
