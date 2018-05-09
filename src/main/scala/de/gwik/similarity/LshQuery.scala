@@ -10,18 +10,20 @@ import scala.io.Source
 
 class LshQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
 
-  var dim: Int = _
   var lsh: Lsh = _
+  var dim_val: Int = _
 
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
     val ret: Seq[(String, Double)] = lsh.query(new DenseVector(queryVector.toArray), maxItems = nearestNeighborCount)
     ret.map(i => new QueryResult(queryVector, None, Option(i._2), Option(i._1)))
   }
 
+  override def dim: Double = dim_val
+
   override def tearUp(): Unit = {
     val src: Iterator[String] = Source.fromFile(dataUrl).getLines
     val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble  ).toSeq).toSeq
-    dim = testSequences.head.length
+    dim_val = testSequences.head.length
 
     lsh = Lsh(numBits, dimensions, numTables)
     testSequences.foreach(i => {

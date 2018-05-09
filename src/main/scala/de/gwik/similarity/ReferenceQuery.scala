@@ -8,7 +8,7 @@ import scala.io.Source
 class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
 
   var testSequences: Seq[Seq[Double]] = _
-  var dim: Int = _
+  var dim_val: Int = _
 
   trait Scorable {
     def id: String
@@ -34,6 +34,8 @@ class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
     Scored(userVector, articleVector, score)
   }
 
+  override def dim: Double = dim_val
+
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
 
     val topScores: mutable.PriorityQueue[Scored] = collection.mutable.PriorityQueue()(Ordering.by[Scored, Double](-_.score))
@@ -57,7 +59,7 @@ class ReferenceQuery(dataUrl: String) extends GenericQuery(dataUrl) {
   override def tearUp(): Unit = {
     val src: Iterator[String] = Source.fromFile(dataUrl).getLines
     testSequences = src.map(l => l.split("   ").map(c => c.toDouble).toSeq).toSeq
-    dim = testSequences.head.length
+    dim_val = testSequences.head.length
   }
 
   override def tearDown(): Unit = {

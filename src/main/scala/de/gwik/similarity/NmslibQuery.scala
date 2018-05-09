@@ -10,11 +10,10 @@ import scala.sys.process._
 
 class NmslibQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
 
-  var dim: Int = _
-
   var nmsLibServerProcess: Process = _
   var transport: Option[TSocket] = None
   var client: QueryService.Client = _
+  var dim_val: Int = _
 
   override def queryNN(queryVector: Seq[Double], nearestNeighborCount: Int): Seq[QueryResult] = {
     val queryString = queryVector.mkString("   ")
@@ -23,10 +22,12 @@ class NmslibQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig
     result.map(re => new QueryResult(queryVector,None, Option(re.getDist()), Option(re.getId().toString)))
   }
 
+  override def dim: Double = dim_val
+
   override def tearUp(): Unit = {
     val src: Iterator[String] = Source.fromFile(dataUrl).getLines
     val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble  ).toSeq).toSeq
-    dim = testSequences.head.length
+    dim_val = testSequences.head.length
 
     val pathToQueryServer = "../nmslib/query_server/cpp_client_server/query_server"
     val shellExecute = s"$pathToQueryServer -i ./target/test_data.tsv -s l1 -m hnsw -c efConstruction=400,delaunay_type=0 -p 10000"

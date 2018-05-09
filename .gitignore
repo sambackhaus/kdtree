@@ -6,3 +6,11 @@ out/
 gen-java/
 nmslib_exploration/out_*
 nmslib_exploration/result*
+*.out
+*.snm
+*.gz
+*.toc
+*.vrb
+*.nav
+*.log
+*.aux
