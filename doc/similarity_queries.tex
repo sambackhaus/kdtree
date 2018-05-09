@@ -441,7 +441,7 @@ val resultProfiles = queries.map(q => {
 		profile})
 \end{lstlisting}
 
-nmslib essence:
+nmslib current implementation:
 \begin{lstlisting}[style=myScalastyle]
 val pathToQueryServer = "../nmslib/query_server/cpp_client_server/query_server"
 s"$pathToQueryServer -i ./$dataUrl -s l1 -m hnsw -c efConstruction=400,delaunay_type=0 -p 10000" run
@@ -468,7 +468,7 @@ neighbours: 150\\
 
 KdtreeQuery, avg query: 1606 ms\\
 LshQuery, avg query: 44 ms\\
-NmslibQuery, avg query: {\alertA{\bf{0.6 ms}}}\\
+hnsw, avg query: {\alertA{\bf{0.6 ms}}}\\
 ReferenceQuery, avg query: 56 ms\\
 \vspace{0.2cm}
 Result (random):\\
@@ -476,10 +476,10 @@ numPoints: 1000000\\
 dimensions: 90\\
 neighbours: 150\\
 
-KdtreeQuery, avg query: 3889 ms\\
-LshQuery, avg query: 157 ms\\
-NmslibQuery, avg query: {\alertA{\bf{ 0.5 ms}}} \\
-ReferenceQuery, avg query: 410 ms
+KdtreeQuery, avg query: 3799 ms\\
+LshQuery, avg query: 132 ms\\
+hnsw, avg query: {\alertA{\bf{ 0.6 ms}}} \\
+ReferenceQuery, avg query: 230 ms
 \vspace{0.2cm}
 Result (tesla data):\\
 numPoints: 709910\\
@@ -488,7 +488,7 @@ neighbours: 150\\
 
 KdtreeQuery, avg query: 2244 ms\\
 LshQuery, avg query: 2 ms\\
-NmslibQuery, avg query: {\alertA{\bf{0.5 ms}}}\\
+hnsw, avg query: {\alertA{\bf{0.5 ms}}}\\
 ReferenceQuery, avg query: 112 ms\\
 \end{flushleft}
 \end{minipage}
