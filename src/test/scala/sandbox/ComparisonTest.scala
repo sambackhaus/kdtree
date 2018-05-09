@@ -23,8 +23,11 @@ class ComparisonTest extends FunSpec with Matchers with DataConfig {
       codec.onMalformedInput(CodingErrorAction.REPLACE)
       codec.onUnmappableCharacter(CodingErrorAction.REPLACE)
 
-      val dn = "test_data_tesla.ssv"
-      val qn = "query_data_tesla.ssv"
+      //val dn = "test_data_tesla.ssv"
+      //val qn = "query_data_tesla.ssv"
+
+      val dn = "test_data.tsv"
+      val qn = "query_data.tsv"
       val queries: Seq[GenericQuery] = Seq(
         new KdtreeQuery(dataFolder + dn),
         new LshQuery(dataFolder + dn),

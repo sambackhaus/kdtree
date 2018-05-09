@@ -6,7 +6,7 @@ import scala.util.Random
 object DataGenerator extends App with DataConfig {
 
   def createRandomVector() : Seq[Double] = {
-    for (j <- 0 until dimensions) yield Random.nextDouble()
+    for (j <- 0 until dimensionsForGenerator) yield Random.nextDouble()
   }
 
   def generate() {
@@ -16,9 +16,9 @@ object DataGenerator extends App with DataConfig {
     val writer = new PrintWriter(outFile)
     try {
       val start = System.currentTimeMillis()
-      print(s"$start: creating $numPoints in fs with $dimensions dimensions...")
+      print(s"$start: creating $numPoints in fs with $dimensionsForGenerator dimensions...")
       (1 to numPoints).foreach(i => {
-        val numbers = for (j <- 1 to dimensions) yield Random.nextDouble()
+        val numbers = for (j <- 1 to dimensionsForGenerator) yield Random.nextDouble()
         val str = numbers.mkString("   ") + "\n"
         writer.write(str)
       })

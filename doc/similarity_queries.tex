@@ -198,7 +198,7 @@
   belowskip=3mm,
   showstringspaces=false,
   columns=flexible,
-  basicstyle={\small\ttfamily},
+  basicstyle={\tiny\ttfamily},
   numbers=none,
   numberstyle=\tiny\eqc,
   keywordstyle=\bf\alertB,
@@ -220,92 +220,41 @@
 
 
 
+
+
 \begin{frame}{why} 
 \linespread{1}\Large{
 \begin{minipage}{0.99\textwidth}  
+\includegraphics[width=0.8\textwidth]{Figures/vs.png}
 \begin{itemize}
 \item ALS find user recos after matrix factorization 
+\item use currently brute force 
 \end{itemize}
+\RA can we improve efficiency \alertA{(talk topic)}?
 \end{minipage}}
 \end{frame}
 
 
 
-\begin{frame}{what should be possible performance (glove-100-angular)} 
-\linespread{1}\Large{
+\begin{frame}{nmslib contains several methods \citeWork{https://github.com/nmslib/nmslib}} 
+\linespread{1}\normalsize{
 \begin{minipage}{0.99\textwidth}  
-\includegraphics[width=0.8\textwidth]{Figures/vs.png}
-\end{minipage}}
-\end{frame}
-
-
-  
-\begin{frame}{what} 
-\linespread{1}\Large{
-\begin{minipage}{0.99\textwidth}  
+\alertA{N}on \alertA{M}etric \alertA{S}pace library with focus on approximative queries.
 \begin{itemize}
-\item reference test
-\item kd-tree
-\item lsh
-\item nmslib
-\end{itemize}
-\end{minipage}}
-\end{frame}
-
- 
- 
-\begin{frame}{reference test} 
-\linespread{1}\Large{
-\begin{minipage}{0.99\textwidth}  
-brute force counting (in intelligent reduce)
-\end{minipage}}
-\end{frame}
-
-
-
-\begin{frame}{kd-tree $\in$ Space partitioning methods} 
-\linespread{1}\Large{
-\begin{minipage}{0.99\textwidth}  
-\href{https://en.wikipedia.org/wiki/K-d_tree}{\citeWork{wiki K-d tree}} 
-\end{minipage}}
-\end{frame}
-
-
-
-\begin{frame}{lsh} 
-\linespread{1}\Large{
-\begin{minipage}{0.99\textwidth}  
-\end{minipage}}
-\end{frame}
-
-
-
-\begin{frame}{nmslib} 
-\linespread{1}\small{
-\begin{minipage}{0.99\textwidth}  
-https://github.com/nmslib/nmslib
-
-non metric space library with focus on approximative queries
-
-suggested by faiss (Facebook library which is better for 1000 times bigger data)
-https://code.facebook.com/posts/1373769912645926/faiss-a-library-for-efficient-similarity-search/
-
-good manual:
-
-https://github.com/nmslib/nmslib/blob/master/manual/manual.pdf
-
-many distance implementations also for text and images
-
+\item suggested by Faiss (Facebook library which is better for 1000 times bigger data)
+\citeWork{https://code.facebook.com/posts/1373769912645926/faiss-a-library-for-efficient-similarity-search/}
+\item many distance implementations also for text and images \RA \alertB{good as overview}
 \begin{itemize}
-\item  Space partitioning methods (VP-tree, MVP-tree, GH-Tree, List of clusters(exact), SA-tree, bbtree)
-\item Locality Sensitive Hashing (LSH) methods § 5.2;
+\item  Space partitioning methods \alertB{Example 1 next slides}
+\item Locality Sensitive Hashing (LSH) methods
 \item Filter-and-refine methods based on projection to a lower-dimensional space
-§ 5.3;
-\item Filtering methods based on permutations § 5.4;
-\item Methods that construct a proximity graph § 5.5;
-\item Miscellaneous methods § 5.6.
+\item Filtering methods based on permutations
+\item Methods that construct a proximity graph \alertB{Example 2 next slides}
+\item Miscellaneous methods
 \end{itemize}
-\gr{vptree,
+\end{itemize}
+
+\gr{All nmslib methods by name: vptree,
 mvptree,
 ghtree,
 list\textunderscore clusters,
@@ -333,26 +282,25 @@ seq\textunderscore search}
 
 
 
-\begin{frame}{Voronoi (e.g., Spatial Approximation tree (SA-tree)) } 
+\begin{frame}{Example 1: Voronoi (e.g., Spatial Approximation tree (SA-tree)) } 
 \linespread{1}\small{
-\begin{minipage}{0.6\textwidth}  
-\animategraphics[loop,autoplay, width=0.6\textwidth]{30}{Figures/Voronoi/Voronoi-}{0}{199}
+\begin{minipage}{0.6\textwidth}   
+\animategraphics[loop,autoplay, width=0.99\textwidth]{30}{Figures/Voronoi/Voronoi-}{0}{199}
+\citeWork{https://en.wikipedia.org/wiki/Voronoi\textunderscore diagram}
+\end{minipage}
+\begin{minipage}{0.38\textwidth}   
+rough sketch:
+\begin{itemize}
+\item choose generator points
+\item group by closest generator point and assign index
+\end{itemize}
 \end{minipage}
 }
 \end{frame}
 
 
-\begin{frame}{vptree (Vantage Point Tree)} 
-\linespread{1}\small{
-\begin{minipage}{0.6\textwidth}  
-\animategraphics[loop,autoplay, width=0.6\textwidth]{2}{Figures/vptree/vptree-}{0}{13}
-\end{minipage}
-}
-\end{frame}
 
-
-
-\begin{frame}{SW-graph $\in$ Neighborhood Graphs} 
+\begin{frame}{Example 2: SW-graph $\in$ Neighborhood Graphs} 
 \linespread{1}\small{
 \begin{minipage}{0.6\textwidth}  
 \animategraphics[loop,autoplay, width=0.99\textwidth]{3}{Figures/nn/nn-}{0}{87}
@@ -375,7 +323,7 @@ query similar to \href{https://de.wikipedia.org/wiki/Dijkstra-Algorithmus}{\cite
 \begin{frame}{what should be possible performance (glove-100-angular)} 
 \linespread{1}\Large{
 \begin{minipage}{0.99\textwidth}  
-https://github.com/erikbern/ann-benchmarks (python)
+\citeWork{https://github.com/erikbern/ann-benchmarks (python)}
 
 \includegraphics[width=0.8\textwidth]{Figures/perf_comp.png}
 
@@ -385,10 +333,7 @@ c5.4xlarge machine on AWS
 \end{frame}
 
 
-
-
-
-\begin{frame}[fragile]{result /nmslib/similarity_search/release/experiment (random data)} 
+\begin{frame}[fragile]{result /nmslib/similarity\textunderscore search/release/experiment (random data, P50)} 
 \linespread{1}\tiny{
 \begin{minipage}{0.99\textwidth}  
 {\fontsize{7}{2} \selectfont
@@ -431,7 +376,7 @@ seq search   & 1      & 1        & 1           & 0   & 14.6  & 400000   & 1.07  
 \end{frame}
 
 
-\begin{frame}[fragile]{result /nmslib/similarity_search/release/experiment (tesla data)} 
+\begin{frame}[fragile]{result /nmslib/similarity\textunderscore search/release/experiment (tesla data, P50)} 
 \linespread{1}\tiny{
 \begin{minipage}{0.99\textwidth}  
 {\fontsize{7}{2} \selectfont
@@ -475,9 +420,29 @@ seq search   & 1      & 1        & 1           & 0   & 33.7  & 709910   & 1.07  
 
 
 
-\begin{frame}[fragile]{result scala (https://github.com/sambackhaus/sandbox.git)} 
+\begin{frame}[fragile]{result scala (https://github.com/sambackhaus/sandbox.git), P50} 
 \linespread{1}\scriptsize{
-\begin{minipage}{0.48\textwidth}  
+\begin{minipage}{0.55\textwidth}  
+\begin{lstlisting}[style=myScalastyle]
+val queries: Seq[GenericQuery] = Seq(
+	new KdtreeQuery("dataPath"),
+	new LshQuery("dataPath"),
+	new NmslibQuery("dataPath"),
+	new ReferenceQuery("dataPath"))
+
+val resultProfiles = queries.map(q => {
+		System.gc()
+		q.tearUp()
+		val deadline: Deadline = deadlineSeconds.seconds.fromNow
+		while (deadline.hasTimeLeft) {queryVectors(Random.nextInt(queryVectors.size)), 150)}
+		val profile = q.getProfile()
+		q.tearDown()
+		profile})
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}{0.40\textwidth}  
+
 \begin{flushleft}
 Result (random):\\
 numPoints: 400000\\
@@ -488,7 +453,7 @@ KdtreeQuery, avg query: 1447 ms\\
 LshQuery, avg query: 50 ms\\
 NmslibQuery, avg query: {\alertA{\bf{0.5 ms}}}\\
 ReferenceQuery, avg query: 198 ms\\
-\vspace{1cm}
+\vspace{0.2cm}
 Result (random):\\
 numPoints: 1000000\\
 dimensions: 90\\
@@ -498,46 +463,19 @@ KdtreeQuery, avg query: 3889 ms\\
 LshQuery, avg query: 157 ms\\
 NmslibQuery, avg query: {\alertA{\bf{ 0.5 ms}}} \\
 ReferenceQuery, avg query: 410 ms
-\end{flushleft}
-\end{minipage}
-\begin{minipage}{0.48\textwidth}  
-
-\begin{flushleft}
+\vspace{0.2cm}
 Result (tesla data):\\
 numPoints: 709910\\
 dimensions: 94\\
 neighbours: 150\\
 
-KdtreeQuery, avg query: 1447 ms\\
-LshQuery, avg query: 50 ms\\
+KdtreeQuery, avg query: 2244 ms\\
+LshQuery, avg query: 2 ms\\
 NmslibQuery, avg query: {\alertA{\bf{0.5 ms}}}\\
-ReferenceQuery, avg query: 198 ms\\
+ReferenceQuery, avg query: 112 ms\\
 \end{flushleft}
 \end{minipage}
 }
-\end{frame}
-
-
-\begin{frame}[fragile]{run profiling} 
-\linespread{1}\tiny{
-\begin{minipage}{1.05\textwidth}  
-\begin{lstlisting}[style=myScalastyle]
-val queries: Seq[GenericQuery] = Seq(
-	new KdtreeQuery(dataFolder + dataName),
-	new LshQuery(dataFolder + dataName),
-	new NmslibQuery(dataFolder + dataName),
-	new ReferenceQuery(dataFolder + dataName))
-
-val resultProfiles = queries.map(q => {
-		System.gc()
-		q.tearUp()
-		val deadline: Deadline = deadlineSeconds.seconds.fromNow
-		while (deadline.hasTimeLeft) {q.profileQueryNN(DataGenerator.createRandomVector(), neighbours)}
-		val profile = q.getProfile()
-		q.tearDown()
-		profile})
-\end{lstlisting}
-\end{minipage}}
 \end{frame}
 
 
@@ -547,9 +485,13 @@ val resultProfiles = queries.map(q => {
 \begin{minipage}{0.99\textwidth}  
 
 \begin{itemize}
-\item \includegraphics[width=0.4\textwidth]{Figures/faiss_gpu.png} \href{https://www.benfrederickson.com/approximate-nearest-neighbours-for-recommender-systems/}{\citeWork{comparison by Ben Frederickson}} \gr{(just one random benchmark)}
-\item removing, adding data \& re-indexing (not entirely easy)
-\item was@bi has Faiss running on the BI-Power with GPUs. Talk, e.g., to Darius Morawiec (vectors $\simeq 4000$ dim and several million sets).
+\item signifficant improvement possible up to \alertA{$\mathcal O (100)$}
+\item organization of data important \alertA{(random vs real)}
+\item removing, adding data \& re-indexing \alertB{(seems not entirely easy)}
+\item was@bi has Faiss running on the BI-Power with GPUs. Talk, e.g., to \alertB{Darius Morawiec} (vectors $\simeq 4000$ dim and several million sets)
+\item \includegraphics[width=0.4\textwidth]{Figures/faiss_gpu.png} 
+
+\href{https://www.benfrederickson.com/approximate-nearest-neighbours-for-recommender-systems/}{\citeWork{comparison by Ben Frederickson}} \gr{(just one random benchmark)}
 \end{itemize}
 \end{minipage}
 }

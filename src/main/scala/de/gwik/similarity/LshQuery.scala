@@ -25,7 +25,7 @@ class LshQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig {
     val testSequences: Seq[Seq[Double]] = src.map(l => l.split("   ").map(c => c.toDouble  ).toSeq).toSeq
     dim_val = testSequences.head.length
 
-    lsh = Lsh(numBits, dimensions, numTables)
+    lsh = Lsh(numBits, dim_val, numTables)
     testSequences.foreach(i => {
       val payload = new DenseVector(i.toArray)
       lsh.store(payload, UUID.randomUUID().toString)

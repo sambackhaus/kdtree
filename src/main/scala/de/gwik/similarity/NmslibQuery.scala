@@ -30,7 +30,7 @@ class NmslibQuery(dataUrl: String) extends GenericQuery(dataUrl) with DataConfig
     dim_val = testSequences.head.length
 
     val pathToQueryServer = "../nmslib/query_server/cpp_client_server/query_server"
-    val shellExecute = s"$pathToQueryServer -i ./target/test_data.tsv -s l1 -m hnsw -c efConstruction=400,delaunay_type=0 -p 10000"
+    val shellExecute = s"$pathToQueryServer -i ./$dataUrl -s l1 -m hnsw -c efConstruction=400,delaunay_type=0 -p 10000"
     println(shellExecute)
     nmsLibServerProcess = shellExecute run
 
